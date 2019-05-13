@@ -1,0 +1,91 @@
+
+
+
+
+
+CategoryURLs = [] 
+CategoryIdList =  ListJSON["CategoryIdList"]
+
+for idx in CategoryIdList:
+	CategoryURLs.append("https://search.kaola.com/category/"+str(idx)+".html")
+
+
+# ['https://search.kaola.com/category/1470.html', 'https://search.kaola.com/category/2619.html', 'https://search.kaola.com/category/2883.html', 'https://search.kaola.com/category/6781.html', 'https://search.kaola.com/category/20491.html', 'https://search.kaola.com/category/17588.html', 'https://search.kaola.com/category/9693.html', 'https://search.kaola.com/category/3667.html', 'https://search.kaola.com/category/2892.html', 'https://search.kaola.com/category/2722.html', 'https://search.kaola.com/category/2885.html']
+
+
+# CategoryURL
+# url = app_config.CategoryURL
+url = "https://search.kaola.com/category/1470.html"
+
+
+
+# prepare request
+reqM = request.Request(url)
+
+# url-agent && proxy-ip-address
+user_agent, proxies=  app_agent.user_agent, app_agent.proxies
+
+# send request 
+proxy_support = urllib.request.ProxyHandler({'http':random.choice(proxies)})
+opener = request.build_opener(proxy_support)
+request.install_opener(opener)
+
+
+# get request
+result = request.urlopen(reqM)
+json=result.read()
+res=json.decode('utf-8')
+
+
+# def a func and solve url
+doc = pq(res)
+res = doc.find("script").text();
+
+
+# Get lists From URL
+resAll = "".join(re.findall(r"brandList=(.+?);",res))
+
+
+
+f = open('../_data/BrandList.json', 'w', encoding='utf-8', errors='ignore')
+f.write(resAll)
+f.close()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# data = demjson.decode(res)
+# frontCategoryList = data['body']['frontCategoryList']
+# categoryIdList = []
+
+
+# for item in frontCategoryList: 
+#   categoryIdList.append(item['categoryId'])
+
+
+# dictId = demjson.encode({ "CategoryIdList": categoryIdList})
+
+
+# f = open('../_data/CategoryIdList.json', 'w', encoding='utf-8', errors='ignore')
+# f.write(dictId)
+# f.close()

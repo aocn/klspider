@@ -37,7 +37,7 @@ categoryIdList = []
 
 
 for item in frontCategoryList: 
-  categoryIdList.append(item['categoryId'])
+  categoryIdList.append({"CategoryName":item['categoryName'], "CategoryId":item['categoryId']})
 
 
 dictId = demjson.encode({ "CategoryIdList": categoryIdList})
