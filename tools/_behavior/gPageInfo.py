@@ -97,10 +97,12 @@ proxy_support = urllib.request.ProxyHandler({'http':random.choice(proxies)})
 opener = request.build_opener(proxy_support)
 request.install_opener(opener)
 
+
 # get request
 result = request.urlopen(reqM)
 html=result.read()
 html=html.decode('utf-8')
+
 
 # analysis html tags
 htmlText = etree.HTML(html)
@@ -109,17 +111,19 @@ p = pq(htmlText);
 pResult = p('#result').html()  
 # p = pq(html3).text();
 
+
 # all tages and loop items
 doc = pq(pResult)
 its = doc("li").items()
 
+
 resu =''
 for it in its:
     # print(it.text())
-    resu += it.html()+"\r\n\r\n"
+    resu += it.text()+"\r\n\r\n"
 
 
-f = open('test.txt', 'w', encoding='utf-8', errors='ignore')
+f = open('./pageinfo_test.txt', 'w+', encoding='utf-8', errors='ignore')
 f.write(resu)
 f.close()
 

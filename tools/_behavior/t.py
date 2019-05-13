@@ -1,9 +1,22 @@
 # coding:utf-8
 
-import sys
-sys.path.append('../')
-from _imports import *
+# request
+import urllib
+from urllib import request
 
+# basic tools
+import random
+import chardet
+
+# get xpath
+import lxml
+from lxml import etree
+
+# get html ele tools
+from pyquery import PyQuery as pq
+
+# 
+import demjson
 
 
 # 步骤:
