@@ -6,7 +6,7 @@ sys.path.append('../')
 from _imports import *
 from _conf    import app_agent , app_config
 
-from  AnalysisPageNumber import getTotalPageNumber
+from  . import AnalysisPageNumber
 
 def getOnepageData(baseurl):
 	reqM = request.Request(baseurl)
@@ -37,29 +37,35 @@ def getOnepageData(baseurl):
 	doc = pq(pResult)
 	its = doc("li").items()
 
+	# TODO: 将 html-struct 解析成对应格式的 json
 	resu =''
 	for it in its:
 	    # print(it.text())
 
-	    # resu += it.text()+"\r\n\r\n"
-	    resu += it.html()+"\r\n\r\n"
+	    resu += it.text()+"\r\n\r\n"
+	    # resu += it.html()+"\r\n\r\n"
 
-	f = open('./adminABC.txt', 'w+', encoding='utf-8', errors='ignore')
-	f.write(resu)
-	f.close()
+	# f = open('./adminABC.txt', 'w+', encoding='utf-8', errors='ignore')
+	# f.write(resu)
+	# f.close()
+
+	return resu;
 
 
 def getAllPageInfo(url):
-	num = getTotalPageNumber(url)
+	num = AnalysisPageNumber.getTotalPageNumber(url)
+	data = [];
 	for i in (1,num):
 		url = url+"&pageNo="+str(i)
-		getOnepageData(url)
+		data.append(getOnepageData(url))
+		time.sleep( 1 )
+		print('wait 1s...')
 
-	print(num);
+	return data
 
 
 
 # getOnepageData("https://search.kaola.com/category/1470.html?&b=1200")
-getAllPageInfo("https://search.kaola.com/category/1470.html?&b=1200")
+# getAllPageInfo("https://search.kaola.com/category/1470.html?&b=1200")
 
 
