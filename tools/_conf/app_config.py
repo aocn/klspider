@@ -1,47 +1,22 @@
 # coding:utf-8
-
-# request
-import urllib
-from urllib import request
-# basic tools
-import random
-import chardet
-# get xpath
-import lxml
-from lxml import etree
-# get html ele tools
-from pyquery import PyQuery as pq
+# some-config
 
 
-# # TEST MODULE
-# #self define module
-# from tools import GetCategory
-# GetCategory.GetCategory()
+# edit app config
+config = {
+	
+}
 
 
-# URL
-# product info
-# url="https://goods.kaola.com/product/1422127.html"
+# store file path
+store = {
+	
+}
 
 
-# 步骤:
-#   1. 获取所有栏目
-#   2. 获取所有分类
-#   3. 获取分类列表下面的所有条目
+CategoryURL = "https://search.kaola.com/api/getFrontCategory.shtml"
 
 
-##### 进行多个url模拟 #####
-url  = "https://search.kaola.com/category/2620.html"
-# url2
-# url3
-# url4
-
-
-# prepare request
-reqM = request.Request(url)
-
-
-# url-agent
 user_agent = [
     "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50",
     "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50",
@@ -82,7 +57,6 @@ user_agent = [
     "Mozilla/6.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/8.0 Mobile/10A5376e Safari/8536.25",
 ]
 
-# 代理 ip-address
 proxies = [
     '61.135.217.7:80',
     '180.173.199.79:47404',
@@ -92,42 +66,12 @@ proxies = [
     '115.194.160.162:8118'
 ]
 
-# send request 
-proxy_support = urllib.request.ProxyHandler({'http':random.choice(proxies)})
-opener = request.build_opener(proxy_support)
-request.install_opener(opener)
-
-# get request
-result = request.urlopen(reqM)
-html=result.read()
-html=html.decode('utf-8')
-
-# analysis html tags
-htmlText = etree.HTML(html)
-
-p = pq(htmlText);
-pResult = p('#result').html()  
-# p = pq(html3).text();
-
-# all tages and loop items
-doc = pq(pResult)
-its = doc("li").items()
-
-resu =''
-for it in its:
-    # print(it.text())
-    resu += it.html()+"\r\n\r\n"
-
-
-f = open('test.txt', 'w', encoding='utf-8', errors='ignore')
-f.write(resu)
-f.close()
 
 
 
-
-
-
-
+#### config
+#### 保存的路径 
+#### url
+#### 可配置项目
 
 
