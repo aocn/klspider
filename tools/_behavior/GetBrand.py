@@ -14,7 +14,7 @@ with codecs.open("../_data/CategoryIdList.json", 'r', 'utf-8') as f:
 CategoryIdList =  temp["CategoryIdList"]
 
 
-def CrawCategoryBrandData(url, filename):
+def CrawCategoryBrandData(url, filename, categoryId):
 	# prepare request
 	reqM = request.Request(url)
 
@@ -36,16 +36,41 @@ def CrawCategoryBrandData(url, filename):
 	res = doc.find("script").text();
 
 	# Get lists From URL
-	resAll = "".join(re.findall(r"brandList=(.+?);",res))
+	# resAll = "".join()
+	resAll =demjson.decode( re.findall(r"brandList=(.+?);",res)[1] )
 
-	f = open('../_data/CategoryBrandData/'+ filename, 'w', encoding='utf-8', errors='ignore')
-	f.write(resAll)
+
+	BrandList = []
+	BrandListURLs = []
+
+	for item in resAll:
+		BrandList.append(item['brandId'])
+		BrandListURLs.append( url + '?&b='+ str(item['brandId']) );
+
+	# 添加 urls
+	f = open('../_data/CategoryBrandData/url-'+ filename, 'w', encoding='utf-8', errors='ignore')
+	f.write(demjson.encode({'FromCategory': categoryId ,'BrandListURLs': BrandListURLs}) )
 	f.close()
+
+	return BrandListURLs
+
+
+ListURL = []
+CategoryBrandURLs = []
 
 
 for item in CategoryIdList:
 	print(item["CategoryId"], item["CategoryName"])	
 	current_url = "https://search.kaola.com/category/"+str(item["CategoryId"])+".html"
 	filename = str(item["CategoryId"]) +'-'+item["CategoryName"] +'.json'
-	CrawCategoryBrandData(current_url, filename)
+	# CategoryBrandURLs.append('_data/CategoryBrandData/'+ filename);
+	urls = CrawCategoryBrandData(current_url, filename , item["CategoryId"])
+	ListURL.append( urls )
+
+
+
+f = open('../_data/CategoryBrandData/allBrandURLs.json', 'w', encoding='utf-8', errors='ignore')
+f.write( demjson.encode( ListURL) )
+f.close()
+
 
