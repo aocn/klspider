@@ -56,7 +56,7 @@ def CrawCategoryBrandData(url, filename, categoryId):
 
 
 ListURL = []
-CategoryBrandURLs = []
+# CategoryBrandURLs = []
 
 
 for item in CategoryIdList:
@@ -65,11 +65,11 @@ for item in CategoryIdList:
 	filename = str(item["CategoryId"]) +'-'+item["CategoryName"] +'.json'
 	# CategoryBrandURLs.append('_data/CategoryBrandData/'+ filename);
 	urls = CrawCategoryBrandData(current_url, filename , item["CategoryId"])
-	ListURL.append( urls )
+	ListURL.append( { "CategoryId": str(item["CategoryId"]), "BrandList":urls} )
 
 
 
-f = open('../_data/CategoryBrandData/allBrandURLs.json', 'w', encoding='utf-8', errors='ignore')
+f = open('../_data/allBrandURLs.json', 'w', encoding='utf-8', errors='ignore')
 f.write( demjson.encode( ListURL) )
 f.close()
 
