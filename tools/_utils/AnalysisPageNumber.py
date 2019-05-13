@@ -7,6 +7,7 @@ from _conf    import app_agent , app_config
 
 # GET SINGLE PAGE BY URL
 # url
+import string
 
 def getTotalPageNumber(url):
 
@@ -48,5 +49,7 @@ def getTotalPageNumber(url):
 	    resu.append(it.text())
 
 	# ['2', '3', '4', '5', '6', '7', '8', '11', '▒▒һҳ'] 倒数第二个是最大长度 哈哈哈哈！！
-	return resu[-2]
+	num = int(resu[-2])
+
+	return  num
 

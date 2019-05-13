@@ -977,11 +977,20 @@ urls = [
 # 		f.close()
 
 
-for item in urls:
-		resData = getAllPageInfo(item)
-		f = open('./FinalGoodsDatatest.json', 'a+', encoding='utf-8', errors='ignore')
-		f.write(demjson.encode(resData))
-		f.close()
+# for item in urls:
+# 		resData = getAllPageInfo(item)
+# 		f = open('./FinalGoodsDatatest.json', 'a+', encoding='utf-8', errors='ignore')
+# 		f.write(demjson.encode(resData))
+# 		f.close()
+
+
+
+
+
+resData = getAllPageInfo( "https://search.kaola.com/category/1470.html?&b=1200" )
+f = open('./FinalGoodsDatatest.json', 'a+', encoding='utf-8', errors='ignore')
+f.write( resData )
+f.close()
 
 
 

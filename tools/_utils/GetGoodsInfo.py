@@ -7,6 +7,7 @@ from _imports import *
 from _conf    import app_agent , app_config
 
 from  . import AnalysisPageNumber
+import string
 
 def getOnepageData(baseurl):
 	reqM = request.Request(baseurl)
@@ -54,10 +55,12 @@ def getOnepageData(baseurl):
 
 def getAllPageInfo(url):
 	num = AnalysisPageNumber.getTotalPageNumber(url)
-	data = [];
-	for i in (1,num):
-		url = url+"&pageNo="+str(i)
-		data.append(getOnepageData(url))
+	data = '';
+	for i in (1, num+1):
+		# url = url+"&pageNo="+str(i)
+		url = url+"&pageNo="+ '2'
+
+		data += (getOnepageData(url))
 		time.sleep( 1 )
 		print('wait 1s...')
 
