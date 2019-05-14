@@ -39,9 +39,20 @@ def getTotalPageNumber(url):
 	p = pq(htmlText);
 	pResult = p('.splitPages').html()  
 
+	if pResult is None :
+		return 1;
+
 	# all tages and loop items
 	doc = pq(pResult)
 	its = doc("a").items()
+
+
+
+	# f = open('../_data/ttttt.json', 'a+', encoding='utf-8', errors='ignore')
+	# f.write(demjson.encode(resData))
+	# f.close()
+
+
 
 
 	resu =[]

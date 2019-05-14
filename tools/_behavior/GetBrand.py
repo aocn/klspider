@@ -31,6 +31,7 @@ def CrawCategoryBrandData(url, filename, categoryId):
 	json=result.read()
 	res=json.decode('utf-8')
 
+
 	# def a func and solve url
 	doc = pq(res)
 	res = doc.find("script").text();
@@ -39,38 +40,47 @@ def CrawCategoryBrandData(url, filename, categoryId):
 	# resAll = "".join()
 	resAll =demjson.decode( re.findall(r"brandList=(.+?);",res)[1] )
 
-
-	BrandList = []
+	# BrandList = []
 	BrandListURLs = []
-
 	for item in resAll:
-		BrandList.append(item['brandId'])
+		# BrandList.append(item['brandId'])
 		BrandListURLs.append( url + '?&b='+ str(item['brandId']) );
 
 	# 添加 urls
 	f = open('../_data/CategoryBrandData/url-'+ filename, 'w', encoding='utf-8', errors='ignore')
-	f.write(demjson.encode({'FromCategory': categoryId ,'BrandListURLs': BrandListURLs}) )
+
+	f.write(demjson.encode({'FromCategory': categoryId ,'BrandListURLs': BrandListURLs }) )
 	f.close()
 
 	return BrandListURLs
 
 
-ListURL = []
-# CategoryBrandURLs = []
 
+ListURL = []
 
 for item in CategoryIdList:
-	print(item["CategoryId"], item["CategoryName"])	
+
 	current_url = "https://search.kaola.com/category/"+str(item["CategoryId"])+".html"
 	filename = str(item["CategoryId"]) +'-'+item["CategoryName"] +'.json'
-	# CategoryBrandURLs.append('_data/CategoryBrandData/'+ filename);
-	urls = CrawCategoryBrandData(current_url, filename , item["CategoryId"])
-	ListURL.append( { "CategoryId": str(item["CategoryId"]), "BrandList":urls} )
 
+	urls = CrawCategoryBrandData(current_url, filename , item["CategoryId"])
+
+
+	writeDoc = { 
+			"CategoryId": str(item["CategoryId"]), 
+			"BrandList":urls, 
+		} 
+
+	f = open('../_data/CategoryBrandURL/'+filename, 'w', encoding='utf-8', errors='ignore')
+	f.write( demjson.encode( 
+		writeDoc
+	) )
+	f.close()
+
+	ListURL.append(writeDoc)
 
 
 f = open('../_data/allBrandURLs.json', 'w', encoding='utf-8', errors='ignore')
 f.write( demjson.encode( ListURL) )
 f.close()
-
 
