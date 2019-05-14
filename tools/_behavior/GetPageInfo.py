@@ -22,16 +22,15 @@ def getBrandIdName(url):
 	brandTag = url.split("&b=")[1].split("&namebrand=")
 	return brandTag[0], brandTag[1]
 
-try:
-	for item in temp:
-		categoryId = item["CategoryId"]
-		urlLists = item["BrandList"]
-		for url in urlLists:
-			brandId, brandName = getBrandIdName(url)
-			resData = getAllPageInfo(url, brandId, brandName)
-			f = open('../_data/FinalGoodsData/'+ str(categoryId) +'.json', 'a+', encoding='utf-8', errors='ignore')
-			f.write(demjson.encode(resData))
-			f.close()
-  except Exception as e:
-  	pass
-  continue
+for item in temp:
+	categoryId = item["CategoryId"]
+	urlLists = item["BrandList"]
+	for url in urlLists:
+		brandId, brandName = getBrandIdName(url)
+		url = url.split("&namebrand")[0]
+		resData = getAllPageInfo(url, brandId, brandName)
+		f = open('../_data/FinalGoodsData/'+ str(categoryId) +'.json', 'a+', encoding='utf-8', errors='ignore')
+		f.write(demjson.encode(resData))
+		f.close()
+
+
