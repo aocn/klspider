@@ -14,33 +14,24 @@ with codecs.open("../_data/allBrandURLs.json", 'r', 'utf-8') as f:
   temp = json.loads(f.read())
 
 
-tmp = [{
-		"BrandList": [
-				"https://search.kaola.com/category/2885.html?&b=9641",
-				# "https://search.kaola.com/category/2885.html?&b=15600",
-				"https://search.kaola.com/category/2885.html?&b=9964"
-			],
-		"CategoryId":"2885"
-	}]
+# tempReflect = ''
+# with codecs.open("../_data/CategoryBrandData/BrandReflectName.json", 'r', 'utf-8') as f:
+#   tempReflect = json.loads(f.read())
 
+def getBrandIdName(url):
+	brandTag = url.split("&b=")[1].split("&namebrand=")
+	return brandTag[0], brandTag[1]
 
-def getBrandId(url):
-	return str(12345)
-
-def getBrandName(id):
-	return "喜之郎"
-
-
-for item in tmp:
-	categoryId = item["CategoryId"]
-	urlLists = item["BrandList"]
-	for url in urlLists:
-		brandId = getBrandId(url)
-		brandName = getBrandName(brandId)
-
-		resData = getAllPageInfo(url, brandId, brandName)
-		f = open('../_data/FinalGoodsData/'+ str(categoryId) +'.json', 'a+', encoding='utf-8', errors='ignore')
-		f.write(demjson.encode(resData))
-		f.close()
-
-
+try:
+	for item in temp:
+		categoryId = item["CategoryId"]
+		urlLists = item["BrandList"]
+		for url in urlLists:
+			brandId, brandName = getBrandIdName(url)
+			resData = getAllPageInfo(url, brandId, brandName)
+			f = open('../_data/FinalGoodsData/'+ str(categoryId) +'.json', 'a+', encoding='utf-8', errors='ignore')
+			f.write(demjson.encode(resData))
+			f.close()
+  except Exception as e:
+  	pass
+  continue

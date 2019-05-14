@@ -12,7 +12,7 @@ temp = ''
 with codecs.open("../_data/CategoryIdList.json", 'r', 'utf-8') as f:
   temp = json.loads(f.read())
 CategoryIdList =  temp["CategoryIdList"]
-
+ 
 
 def CrawCategoryBrandData(url, filename, categoryId):
 	# prepare request
@@ -40,17 +40,28 @@ def CrawCategoryBrandData(url, filename, categoryId):
 	# resAll = "".join()
 	resAll =demjson.decode( re.findall(r"brandList=(.+?);",res)[1] )
 
+
 	# BrandList = []
 	BrandListURLs = []
+	BrandIdReflectList = []
 	for item in resAll:
+		brandId, brandName = item['brandId'], item["brandName"]
+
 		# BrandList.append(item['brandId'])
-		BrandListURLs.append( url + '?&b='+ str(item['brandId']) );
+		BrandListURLs.append( url + '?&b='+ str( brandId) +"&namebrand="+ str(brandName) );
 
 	# 添加 urls
 	f = open('../_data/CategoryBrandData/url-'+ filename, 'w', encoding='utf-8', errors='ignore')
-
 	f.write(demjson.encode({'FromCategory': categoryId ,'BrandListURLs': BrandListURLs }) )
 	f.close()
+
+
+
+
+	# 生成 brandId : brandName
+
+
+
 
 	return BrandListURLs
 

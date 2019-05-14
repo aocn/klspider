@@ -20,7 +20,7 @@ def structToJson(html, brandId, brandName):
 		brandId   		= brandId
 		brandName 		= brandName
 		goodsName 		= it(".title").text()
-		currency  		= it(".cur").text()
+		currency  		= it(".cur").text()[0:1]
 		image 	  		= it(".imgtag").attr("src")
 		country   		= it(".proPlace").text()
 		price	  		= it(".cur").text().lstrip("\u00a5")
